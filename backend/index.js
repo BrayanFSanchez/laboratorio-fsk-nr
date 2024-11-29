@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// const connectDB = require('./config/db');
 require('dotenv').config();
+
+const patientRoutes = require('./routes/patients');
+const symptomRoutes = require('./routes/symptoms');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,8 +26,8 @@ mongoose
 
 // Rutes
 app.get('/', (req, res) => res.send('API Running'));
-app.use('/api/patients', require('./routes/patients'));
-app.use('/api/symptoms', require('./routes/symptoms'));
+app.use('/api/patients', patientRoutes);
+app.use('/api/symptoms', symptomRoutes);
 
 // Server
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

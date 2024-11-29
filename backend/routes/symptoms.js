@@ -1,30 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Symptom = require('../models/Symptom');
+const symptomController = require('../controllers/symptom');
 
-// Get all symptoms
-router.get('/', async (req, res) => {
-  const symptoms = await Symptom.find();
-  res.json(symptoms);
-});
-
-// Add symptom
-router.post('/', async (req, res) => {
-  const symptom = new Symptom(req.body);
-  await symptom.save();
-  res.json(symptom);
-});
-
-// Update symptom
-router.put('/:id', async (req, res) => {
-  const symptom = await Symptom.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(symptom);
-});
-
-// Remove symptom
-router.delete('/:id', async (req, res) => {
-  await Symptom.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Symptom deleted' });
-});
+// Symptom routes
+router.post('/', symptomController.createSymptom);
+router.get('/', symptomController.getSymptoms);
+router.get('/:id', symptomController.getSymptomById);
+router.put('/:id', symptomController.updateSymptom);
+router.delete('/:id', symptomController.deleteSymptom);
 
 module.exports = router;
