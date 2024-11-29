@@ -24,8 +24,8 @@ mongoose
 
 // Rutes
 app.get('/', (req, res) => res.send('API Running'));
-// app.use('/api/pacientes', require('./routes/pacientes'));
-// app.use('/api/sintomas', require('./routes/sintomas'));
+app.use('/api/patients', require('./routes/patients'));
+app.use('/api/symptoms', require('./routes/symptoms'));
 
 // Server
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
