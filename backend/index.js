@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const patientRoutes = require('./routes/patients');
 const symptomRoutes = require('./routes/symptoms');
+const relationRoutes = require('./routes/relations');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,9 +26,10 @@ mongoose
 // app.use(express.json({ extended: false }));
 
 // Rutes
-app.get('/', (req, res) => res.send('API Running'));
+// app.get('/', (req, res) => res.send('API Running'));
 app.use('/api/patients', patientRoutes);
 app.use('/api/symptoms', symptomRoutes);
+app.use('/api/relations', relationRoutes);
 
 // Server
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
