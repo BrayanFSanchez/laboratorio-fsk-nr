@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { PatientTable } from "../components/PatientTable";
 import { Modal } from "../components/Modal";
 import { FormPatient } from "../components/FormPatient";
-import { getPatients, createPatient, updatePatient, deletePatient } from "../services/api";
+
+import patientApi from "../services/patientApi";
 
 export const PatientsPage = () => {
   const [patients, setPatients] = useState([]);
@@ -14,8 +15,15 @@ export const PatientsPage = () => {
   }, []);
 
   const loadPatients = async () => {
-    const data = await getPatients();
-    setPatients(data);
+    const fetchPatients = async () => {
+      try {
+        const dataPatients = await patientApi.getPatients();
+        setPatients(dataPatients);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+    fetchPatients();
   };
 
   const handleAdd = () => {
