@@ -4,11 +4,13 @@ import { Modal } from "../components/Modal";
 import { FormPatient } from "../components/FormPatient";
 
 import patientApi from "../services/patientApi";
+import relationApi from "../services/relationApi";
 
 export const PatientsPage = () => {
   const [patients, setPatients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPatient, setCurrentPatient] = useState(null);
+  const [symptoms, setSymptoms] = useState([]);
 
   useEffect(() => {
     loadPatients();
@@ -28,12 +30,19 @@ export const PatientsPage = () => {
 
   const handleAdd = () => {
     setCurrentPatient(null);
+    setSymptoms([]);
     setIsModalOpen(true);
   };
 
-  const handleEdit = (patient) => {
-    setCurrentPatient(patient);
-    setIsModalOpen(true);
+  const handleEdit = async (patient) => {
+    try {
+      const patientWithSymptoms = await relationApi.getPatientWithSymptoms(patient._id);
+      setCurrentPatient(patientWithSymptoms);
+      setSymptoms(patientWithSymptoms.symptoms || []);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching patient symptoms:", error);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -82,6 +91,19 @@ export const PatientsPage = () => {
           initialData={currentPatient}
           onSubmit={handleSubmit}
         />
+        {currentPatient && symptoms.length > 0 && (
+          <div className="mt-4">
+            <h3 className="text-lg font-bold">Síntomas</h3>
+            <ul className="list-disc pl-5">
+              {symptoms.map((symptom, index) => (
+                <li key={index}>
+                  <strong>{symptom.nombre}:</strong> {symptom.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
       </Modal>
     </div>
   )
