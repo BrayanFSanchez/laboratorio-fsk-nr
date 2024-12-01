@@ -14,7 +14,7 @@ export const PatientRow = ({ patient, onEdit, onDelete }) => {
                 Editar
                 </button>
                 <button
-                onClick={() => onDelete(patient.id)}
+                onClick={() => onDelete(patient._id)}
                 className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
                 >
                 Borrar
