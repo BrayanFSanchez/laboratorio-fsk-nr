@@ -16,7 +16,7 @@ const relationApi = {
     return response.data;
   },
   getPatientWithSymptoms: async (id) => {
-    const response = await api.get(`/patients/${id}/symptoms`);
+    const response = await api.get(`/relations/${id}/symptoms`);
     return response.data;
   },
 };

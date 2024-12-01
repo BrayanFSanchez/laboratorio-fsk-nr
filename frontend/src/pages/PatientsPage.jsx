@@ -37,18 +37,26 @@ export const PatientsPage = () => {
   };
 
   const handleDelete = async (id) => {
-    await deletePatient(id);
-    loadPatients();
+    try {
+      await patientApi.deletePatient(id);
+      loadPatients();
+    } catch (error) {
+      console.error("Error deleting patient:", error);
+    }
   };
 
   const handleSubmit = async (formData) => {
-    if (currentPatient) {
-      await updatePatient(currentPatient.id, formData);
-    } else {
-      await createPatient(formData);
+    try {
+      if (currentPatient) {
+        await patientApi.updatePatient(currentPatient._id, formData);
+      } else {
+        await patientApi.createPatient(formData);
+      }
+      setIsModalOpen(false);
+      loadPatients();
+    } catch (error) {
+      console.error("Error submitting patient:", error);
     }
-    setIsModalOpen(false);
-    loadPatients();
   };
 
   return (
